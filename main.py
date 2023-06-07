@@ -1,7 +1,9 @@
 from pyrogram import Client
+
 from dotenv import load_dotenv
 import os, openai
 load_dotenv()
+
 
 openai.api_key = os.getenv('API_KEY')
 api_id = os.getenv('API_ID')

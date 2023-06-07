@@ -1,8 +1,11 @@
 from pyrogram import Client, filters
 from pyrogram.enums.parse_mode import ParseMode
 from pydub import AudioSegment
+import datetime, logging
+
 import openai
 
+logging.basicConfig(filename='rvis.log', level=logging.INFO)
 status = "uxlayabman"
 bot_run = True
 def convert_ogg_to_mp3(ogg_path, mp3_path):
@@ -17,10 +20,14 @@ async def chatgpt(client, message):
     if message.text == "/stop":
         bot_run = False
         await message.reply("Bot to'xtatildi!")
-        
+        current_time = datetime.datetime.now().strftime('%H:%M:%S %d-%m-%Y')
+        logging.info(f'{current_time} : Bot to\'xtatildi!')
+
     if message.text == "/start":
         bot_run = True
-        await message.reply("Bot to'xtatildi!")
+        await message.reply("Bot ishga tushdi!")
+        current_time = datetime.datetime.now().strftime('%H:%M:%S %d-%m-%Y')
+        logging.info(f'{current_time} : Bot ishga tushdi!')
         
     if bot_run:
         completion = openai.ChatCompletion.create(
@@ -32,6 +39,8 @@ async def chatgpt(client, message):
         is_unread = await client.read_chat_history(message.chat.id, message.id)
         print(completion.choices[0].message['content'])
         await message.reply_text(completion.choices[0].message['content'], quote=True, parse_mode=ParseMode.MARKDOWN)
+        current_time = datetime.datetime.now().strftime('%H:%M:%S %d-%m-%Y')
+        logging.info(f'{current_time} :' + message.text + ' \n: ' +  completion.choices[0].message['content'])
 
 
 
