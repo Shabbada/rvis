@@ -17,19 +17,21 @@ def convert_ogg_to_mp3(ogg_path, mp3_path):
 async def chatgpt(client, message):
     print(message.text)
     global bot_run
-    if message.text == "/stop":
+    user_id = message.from_user.id
+    my_id = 5236426935
+    if message.text == "/stop" and user_id == my_id:
         bot_run = False
         await message.reply("Bot to'xtatildi!")
         current_time = datetime.datetime.now().strftime('%H:%M:%S %d-%m-%Y')
         logging.info(f'{current_time} : Bot to\'xtatildi!')
 
-    if message.text == "/start":
+    if message.text == "/start" and user_id == my_id:
         bot_run = True
         await message.reply("Bot ishga tushdi!")
         current_time = datetime.datetime.now().strftime('%H:%M:%S %d-%m-%Y')
         logging.info(f'{current_time} : Bot ishga tushdi!')
         
-    if bot_run:
+    if bot_run and user_id != my_id:
         completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
