@@ -1,4 +1,5 @@
 from pyrogram import Client, filters
+from pyrogram.enums.parse_mode import ParseMode
 from pydub import AudioSegment
 import openai
 
@@ -13,11 +14,13 @@ async def chatgpt(client, message):
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
-    {"role": "user", "content": message.text}
+    {"role": "user", "content": message.text + "\n o'zbek tilida javob ber"}
     ]
     )
+    is_unread = await client.read_chat_history(message.chat.id, message.id)
     print(completion.choices[0].message['content'])
-    await message.reply(completion.choices[0].message['content'])
+    await message.reply_text(completion.choices[0].message['content'], quote=True, parse_mode=ParseMode.MARKDOWN)
+
 
 
 @Client.on_message(filters.voice & filters.private, group=1)
