@@ -1,0 +1,4 @@
+openai 
+Pyrogram 
+pydub
+python-dotenv
