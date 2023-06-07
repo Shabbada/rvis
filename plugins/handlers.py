@@ -1,12 +1,6 @@
 from pyrogram import Client, filters
 from pydub import AudioSegment
-from dotenv import load_dotenv
-import os
 import openai
-
-
-openai.api_key = os.getenv('API_KEY')
-
 
 def convert_ogg_to_mp3(ogg_path, mp3_path):
     ogg_audio = AudioSegment.from_ogg(ogg_path)
@@ -14,18 +8,20 @@ def convert_ogg_to_mp3(ogg_path, mp3_path):
 
 
 @Client.on_message(filters.text & filters.private, group=1)
-async def echo_reversed(client, message):
+async def chatgpt(client, message):
+    print(message.text)
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
     {"role": "user", "content": message.text}
     ]
     )
+    print(completion.choices[0].message['content'])
     await message.reply(completion.choices[0].message['content'])
 
 
 @Client.on_message(filters.voice & filters.private, group=1)
-async def echo_reversed(client, message):
+async def voice_func(client, message):
     if message.voice:
         voice_path = await client.download_media(message.voice)
         mp3_path = voice_path.replace(".ogg", ".mp3")
