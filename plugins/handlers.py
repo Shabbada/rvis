@@ -13,13 +13,12 @@ def convert_ogg_to_mp3(ogg_path, mp3_path):
 @Client.on_message(filters.text & filters.private, group=1)
 async def chatgpt(client, message):
     print(message.text)
+    global bot_run
     if message.text == "/stop":
-        global bot_run
         bot_run = False
         await message.reply("Bot to'xtatildi!")
         
     if message.text == "/start":
-        global bot_run
         bot_run = True
         await message.reply("Bot to'xtatildi!")
         
