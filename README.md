@@ -1,2 +1,2 @@
-# rvis
-rvis is reply automation AI
+# RVIS
+RVIS is reply automation AI
